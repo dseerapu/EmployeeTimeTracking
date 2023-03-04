@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.example.aquaexchange.ui.create_employee.CreateEmployeeViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/createEmployeeTxt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_normal"
+            android:text="@string/create_employee"
+            android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/employeeIdInputLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_normal"
+            android:hint="@string/employee_id"
+            app:layout_constraintTop_toBottomOf="@+id/createEmployeeTxt">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/employeeIdEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:text="@={viewModel.employeeIdFlow}"
+                android:textAppearance="?textAppearanceBody2" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/employeeNameInputLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_normal"
+            android:hint="@string/employee_name"
+            app:layout_constraintTop_toBottomOf="@+id/employeeIdInputLayout">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/employeeNameEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:imeOptions="actionDone"
+                android:maxLength="16"
+                android:maxLines="1"
+                android:text="@={viewModel.employeeNameFlow}"
+                android:textAppearance="?textAppearanceBody2" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+            android:id="@+id/loginFab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_normal"
+            android:enabled="@{viewModel.employeeIdFlow.length() > 0 &amp;&amp; viewModel.employeeNameFlow.length() > 0, default=false}"
+            android:onClick="@{()->viewModel.addEmployee()}"
+            android:text="@string/login"
+            android:textAlignment="center"
+            app:icon="@drawable/right_arrow"
+            app:iconGravity="textEnd"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/employeeNameInputLayout" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/margin_normal"
+            android:visibility="invisible"
+            app:layout_constraintTop_toBottomOf="@+id/loginFab" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

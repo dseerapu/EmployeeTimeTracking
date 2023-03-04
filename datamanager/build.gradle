@@ -1,0 +1,66 @@
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+    id 'kotlin-parcelize'
+    id 'com.google.dagger.hilt.android'
+}
+
+android {
+    namespace 'com.aquaexchange.datamanager'
+    compileSdk 33
+
+    defaultConfig {
+        minSdk 24
+        targetSdk 33
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
+    hilt {
+        enableAggregatingTask = true
+    }
+}
+
+dependencies {
+
+    implementation 'androidx.core:core-ktx:1.7.0'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.google.android.material:material:1.8.0'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+
+    // Room SQLite for data persistence
+    api "androidx.room:room-runtime:$rootProject.roomDatabase"
+    api "androidx.room:room-rxjava2:$rootProject.roomDatabase"
+    api "androidx.room:room-ktx:$rootProject.roomDatabase"
+    kapt "androidx.room:room-compiler:$rootProject.roomDatabase"
+
+
+    // Dependency Injection - Hilt
+    // https://developer.android.com/training/dependency-injection/hilt-android
+    implementation "com.google.dagger:hilt-android:2.44.1"
+    kapt("com.google.dagger:hilt-android-compiler:2.44")
+
+    // Work Manager
+    api "androidx.work:work-runtime-ktx:$rootProject.workManagerVersion"
+    api 'androidx.hilt:hilt-work:1.0.0'
+
+    implementation project(":base")
+}

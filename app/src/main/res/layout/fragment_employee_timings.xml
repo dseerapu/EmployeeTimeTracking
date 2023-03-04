@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.example.aquaexchange.ui.employee_timings.EmployeeTimingsViewModel" />
+
+        <import type="android.view.View" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.employee_timings.EmployeeTimingsFragment">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/employeeNameTxt"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_normal"
+            android:text="@{viewModel.employeeName + ` - `+viewModel.selectedDateTextFlow}"
+            android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Employee 1" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/productiveHoursTxt"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_normal"
+            android:text="@{`Productive Time : `+viewModel.productiveTimeToDisplay}"
+            android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/employeeNameTxt"
+            tools:text="1 hours 20 minutes 10 seconds" />
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_margin="@dimen/margin_normal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toTopOf="@+id/punchInOrOutBtn"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/productiveHoursTxt"
+            tools:itemCount="100"
+
+            tools:listitem="@layout/item_employee_timings" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/punchInOrOutBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="@{viewModel.displayCheckInOrCheckOutButton?View.VISIBLE:View.GONE}"
+            android:onClick="@{()-> viewModel.checkInOrCheckOutClicked()}"
+            android:text="@{viewModel.buttonState?@string/check_out:@string/check_in, default=@string/check_in}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

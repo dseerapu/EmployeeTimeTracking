@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/employeesScreen">
+
+    <fragment
+        android:id="@+id/employeesScreen"
+        android:name="com.example.aquaexchange.ui.employees.EmployeesFragment"
+        android:label="@string/employees"
+        tools:layout="@layout/fragment_employees">
+
+        <action
+            android:id="@+id/navigate_to_employee_timings_screen"
+            app:destination="@id/employeeTimingsScreen" />
+
+        <action
+            android:id="@+id/navigate_to_create_employee_screen"
+            app:destination="@id/createEmployeeScreen" />
+    </fragment>
+    <fragment
+        android:id="@+id/employeeTimingsScreen"
+        android:name="com.example.aquaexchange.ui.employee_timings.EmployeeTimingsFragment"
+        android:label="@string/employee_timings"
+        tools:layout="@layout/fragment_employee_timings">
+
+        <argument
+            android:name="employeeId"
+            app:argType="integer" />
+
+        <argument
+            android:name="date"
+            app:argType="long" />
+    </fragment>
+
+    <dialog
+        android:id="@+id/createEmployeeScreen"
+        android:name="com.example.aquaexchange.ui.create_employee.CreateEmployeeBottomSheetDialogFragment"
+        tools:layout="@layout/bottom_sheet_fragment_create_dialog" />
+</navigation>
