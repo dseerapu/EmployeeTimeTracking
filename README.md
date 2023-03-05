@@ -14,4 +14,5 @@
     * Life Cycle
     * Navigation Component
     * Worker Manager 
+    * Coroutines
 * ###### UI Pattern : Material Design Pattern (M3 for styles)
