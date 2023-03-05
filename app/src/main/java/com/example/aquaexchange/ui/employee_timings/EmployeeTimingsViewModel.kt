@@ -11,7 +11,6 @@ import com.aquaexchange.datamanager.db.employee_timings.EmployeeTimings
 import com.aquaexchange.datamanager.utils.convertToDateFormat
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
@@ -90,7 +89,7 @@ class EmployeeTimingsViewModel @Inject constructor(
 
     val productiveTimeToDisplay = employeeDayStatsFlow.map {
         it?.productiveTimeInString ?: "-"
-    }.asStateFlow(viewModelScope,"-")
+    }.asStateFlow(viewModelScope, "-")
 
     fun checkInOrCheckOutClicked() {
 
@@ -128,7 +127,6 @@ class EmployeeTimingsViewModel @Inject constructor(
             ) {
                 displayToast("You are trying to check In for another date")
             } else {
-//                employeeDayStats.lastCheckIn = System.currentTimeMillis()
                 val newItem = employeeDayStats.copy(lastCheckIn = System.currentTimeMillis())
                 updateEmployeeDetails(buttonStateValue, newItem)
             }

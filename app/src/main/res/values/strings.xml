@@ -17,4 +17,5 @@
     <string name="employee_id">Employee ID</string>
     <string name="employee_name">Employee Name</string>
     <string name="login">Login</string>
+    <string name="click_on_create_employee_button_to_create_a_new_employee">Looks like no employees present at this moment.\n Click on `Create Employee Button` to create one</string>
 </resources>

@@ -1,50 +1,33 @@
 package com.example.aquaexchange
 
-import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.lifecycleScope
+import androidx.activity.viewModels
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
-import com.aquaexchange.datamanager.data_manager.DataManager
+import com.acquaexchange.base.BaseActivity
 import com.example.aquaexchange.databinding.ActivityMainBinding
-import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import dagger.hilt.android.HiltAndroidApp
-import javax.inject.Inject
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity<ActivityMainBinding, MainActivityViewModel>() {
 
-    @Inject
-    lateinit var dataManager: DataManager
+    private val mainActivityViewModel: MainActivityViewModel by viewModels()
 
     private lateinit var appBarConfiguration: AppBarConfiguration
-    private lateinit var binding: ActivityMainBinding
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
-        setSupportActionBar(binding.toolbar)
+    override fun setUp() {
+        setSupportActionBar(dataBinding.toolbar)
 
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         appBarConfiguration = AppBarConfiguration(navController.graph)
         setupActionBarWithNavController(navController, appBarConfiguration)
+    }
 
-//        binding.fab.setOnClickListener { view ->
-//
-//            lifecycleScope.launchWhenResumed {
-//                dataManager.insertEmployees(EmployeeDetailsData.getEmployees())23
-//            }
-//            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                .setAction("Action", null).show()
-//        }
+    override fun initObservers() {
+        //do nothing
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -67,5 +50,13 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         return navController.navigateUp(appBarConfiguration)
                 || super.onSupportNavigateUp()
+    }
+
+    override val TAG = "MainActivity"
+
+    override fun getLayoutResource() = R.layout.activity_main
+
+    override fun getHiltViewModel(): MainActivityViewModel {
+        return mainActivityViewModel
     }
 }

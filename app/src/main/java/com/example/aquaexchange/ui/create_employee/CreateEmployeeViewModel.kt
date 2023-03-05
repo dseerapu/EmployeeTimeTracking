@@ -42,6 +42,7 @@ class CreateEmployeeViewModel @Inject constructor(
             if (existingEmployee != null) {
                 // If employee is already existing, Displaying a toast.
                 employeeIdErrorFlow.value = "This ID is already present in our database"
+                displayToast("This ID is already present in our database")
             } else {
                 dataManager.insertEmployee(
                     Employee(

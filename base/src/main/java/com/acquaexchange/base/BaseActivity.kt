@@ -9,6 +9,7 @@ import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import com.acquaexchange.base.logger.logException
+import com.acquaexchange.base.utils.collect
 
 /**
  * Base Activity for the activities
@@ -40,6 +41,7 @@ abstract class BaseActivity<Binding : ViewDataBinding, VM : BaseViewModel> :
         super.onCreate(savedInstanceState)
 
         viewModel = getHiltViewModel()
+        setUpToast()
 
         try {
             dataBinding = DataBindingUtil.setContentView(this@BaseActivity, getLayoutResource())
@@ -52,14 +54,13 @@ abstract class BaseActivity<Binding : ViewDataBinding, VM : BaseViewModel> :
         setUp()
 
         initObservers()
-
-        setUpToast()
     }
 
     private fun setUpToast() {
         lifecycleScope.launchWhenResumed {
-            val toastMessage = viewModel.displayToastChannel.receive()
-            displayToast(toastMessage)
+            viewModel.displayToastChannel.collect { toastMessage ->
+                displayToast(toastMessage)
+            }
         }
     }
 

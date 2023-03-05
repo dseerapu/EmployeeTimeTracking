@@ -6,6 +6,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.acquaexchange.base.BaseFragment
+import com.acquaexchange.base.utils.collect
 import com.acquaexchange.base.utils.showDatePickerDialog
 import com.aquaexchange.datamanager.db.employee.Employee
 import com.example.aquaexchange.R
@@ -33,16 +34,19 @@ class EmployeesFragment : BaseFragment<EmployeesViewModel, FragmentEmployeesBind
 
     override fun initObservers(viewLifecycleOwner: LifecycleOwner) {
         lifecycleScope.launchWhenResumed {
-            vm.data.collectLatest(adapter::submitList)
+            vm.employeesList.collectLatest(adapter::submitList)
         }
 
         lifecycleScope.launchWhenResumed {
-            val data = vm.navigateToEmployeeTimingsScreen.receive()
-            onEmployeeClicked(data)
+            vm.navigateToEmployeeTimingsScreen.collect { data ->
+                onEmployeeClicked(data)
+            }
+
         }
     }
 
     override fun setUp() {
+        dataBinding.viewModel = vm
         dataBinding.recyclerView.adapter = adapter
 
         dataBinding.fab.setOnClickListener {
@@ -57,7 +61,7 @@ class EmployeesFragment : BaseFragment<EmployeesViewModel, FragmentEmployeesBind
     private fun openDateSelectFilterItem(employee: Employee) {
         MaterialDatePicker.Builder.datePicker()
             .showDatePickerDialog(activity = this.requireActivity(),
-                defaultSelectedDate = System.currentTimeMillis(),
+                defaultSelectedDate = MaterialDatePicker.todayInUtcMilliseconds(),
                 onDateSelected = {
                     vm.onNewDateSelected(employee.id, it)
                 })
@@ -65,9 +69,6 @@ class EmployeesFragment : BaseFragment<EmployeesViewModel, FragmentEmployeesBind
 
     private fun onEmployeeClicked(employeeIdAndDatePair: Pair<Int, Long>) {
 
-//        lifecycleScope.launch {
-//            vm.dataManager.addEmployeeTimingsList(EmployeeDetailsData.getEmployeesTimingsList())
-//        }
         val directions = EmployeesFragmentDirections.navigateToEmployeeTimingsScreen(
             employeeIdAndDatePair.first, employeeIdAndDatePair.second
         )

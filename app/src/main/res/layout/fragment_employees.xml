@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
 
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.example.aquaexchange.ui.employees.EmployeesViewModel" />
+
+        <import type="android.view.View" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
@@ -19,7 +28,20 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:listitem="@layout/item_employee" />
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_normal"
+            android:gravity="center_horizontal"
+            android:text="@string/click_on_create_employee_button_to_create_a_new_employee"
+            android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+            android:visibility="@{viewModel.employeesList.size()==0?View.VISIBLE:View.GONE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
             android:id="@+id/fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -27,6 +49,9 @@
             android:layout_marginEnd="@dimen/fab_margin"
             android:layout_marginBottom="16dp"
             android:contentDescription="@string/create_employee"
+            android:text="@string/create_employee"
+            app:icon="@android:drawable/ic_input_add"
+            app:iconGravity="textEnd"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:srcCompat="@android:drawable/ic_input_add" />

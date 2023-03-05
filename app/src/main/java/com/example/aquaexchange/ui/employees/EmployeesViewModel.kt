@@ -1,7 +1,9 @@
 package com.example.aquaexchange.ui.employees
 
+import androidx.lifecycle.viewModelScope
 import com.acquaexchange.base.BaseViewModel
 import com.acquaexchange.base.utils.ConflatedChannel
+import com.acquaexchange.base.utils.CoroutineUtils.asStateFlow
 import com.acquaexchange.base.utils.sendValue
 import com.aquaexchange.datamanager.data_manager.DataManager
 import com.aquaexchange.datamanager.db.employee.Employee
@@ -19,5 +21,5 @@ class EmployeesViewModel @Inject constructor(
         navigateToEmployeeTimingsScreen.sendValue(Pair(employeeID,date))
     }
 
-    val data = dataManager.getEmployees()
+    val employeesList = dataManager.getEmployees().asStateFlow(viewModelScope, listOf())
 }

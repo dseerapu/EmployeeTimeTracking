@@ -1,5 +1,6 @@
 package com.acquaexchange.base
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,9 +8,11 @@ import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.lifecycleScope
+import com.acquaexchange.base.utils.collect
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import timber.log.Timber
 
 
 /**
@@ -18,7 +21,8 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
  * @param <VM>
  * @param <Binding>
 </Binding></VM> */
-abstract class BaseBottomSheetDialogFragment<VM : BaseViewModel, Binding : ViewDataBinding> : BottomSheetDialogFragment() {
+abstract class BaseBottomSheetDialogFragment<VM : BaseViewModel, Binding : ViewDataBinding> :
+    BottomSheetDialogFragment() {
 
     private var baseActivity: BaseActivity<*, *>? = null
 
@@ -52,8 +56,17 @@ abstract class BaseBottomSheetDialogFragment<VM : BaseViewModel, Binding : ViewD
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setUpToast()
         setUp()
         initObservers(viewLifecycleOwner)
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        Timber.i("Base:onAttach - $TAG")
+        if (context is BaseActivity<*, *>) {
+            this.baseActivity = context
+        }
     }
 
     override fun onDetach() {
@@ -66,5 +79,13 @@ abstract class BaseBottomSheetDialogFragment<VM : BaseViewModel, Binding : ViewD
     abstract fun setUp()
 
     abstract fun getViewModel(): VM
+
+    private fun setUpToast() {
+        lifecycleScope.launchWhenResumed {
+            vm.displayToastChannel.collect { toastMessage ->
+                baseActivity!!.displayToast(toastMessage)
+            }
+        }
+    }
 
 }

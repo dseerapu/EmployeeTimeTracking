@@ -53,7 +53,7 @@
                 android:id="@+id/employeeNameEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:imeOptions="actionDone"
+                android:imeOptions="actionSend"
                 android:maxLength="16"
                 android:maxLines="1"
                 android:text="@={viewModel.employeeNameFlow}"
